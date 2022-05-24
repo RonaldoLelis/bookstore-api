@@ -3,9 +3,9 @@ package com.lelis.bookstore.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lelis.bookstore.domain.Livro;
+import com.lelis.bookstore.domain.Categoria;
 
 @Repository
-public interface LivroRepositoy extends JpaRepository<Livro, Integer> {
+public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
 }
