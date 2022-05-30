@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lelis.bookstore.domain.Categoria;
+import com.lelis.bookstore.dtos.CategoriaDTO;
 import com.lelis.bookstore.repositories.CategoriaRepository;
 import com.lelis.bookstore.service.exceptions.ObjectNotFoundException;
 
@@ -29,5 +31,21 @@ public class CategoriaService {
 	public Categoria create(Categoria obj) {
 		obj.setId(null);
 		return repository.save(obj);
+	}
+
+	public Categoria update(Integer id, CategoriaDTO objDto) {
+		Categoria obj = findById(id);
+		obj.setNome(objDto.getNome());
+		obj.setDescricao(objDto.getDescricao());
+		return repository.save(obj);
+	}
+
+	public void delete(Integer id) {
+		findById(id);
+		try {
+			repository.deleteById(id);			
+		} catch (DataIntegrityViolationException e) {
+			throw new com.lelis.bookstore.service.exceptions.DataIntegrityViolationException("Categoria não pode ser excluída! Pois possui livros associados a ela!");
+		}
 	}
 }
